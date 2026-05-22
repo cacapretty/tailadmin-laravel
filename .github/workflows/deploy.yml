@@ -16,13 +16,14 @@ jobs:
       - name: Login Docker Hub
         run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
-      - name: Build Docker Image
-        run: docker build -t cacapretty-tailadmin-laravel:beta .
+      # BUILD DI GITHUB RUNNER (bukan manual)
+      - name: Build Image
+        run: docker build -t cacapretty/tailadmin-laravel:beta .
 
-      - name: Push Docker Image
-        run: docker push cacapretty-tailadmin-laravel:beta
+      - name: Push Image
+        run: docker push cacapretty/tailadmin-laravel:beta
 
       - name: Run Container
         run: |
           docker rm -f tailadmin_app || true
-          docker run -d -p 8090:9000 --name tailadmin_app cacapretty-tailadmin-laravel:beta
+          docker run -d -p 8090:9000 --name tailadmin_app cacapretty/tailadmin-laravel:beta
